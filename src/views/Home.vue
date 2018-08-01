@@ -4,19 +4,19 @@
     <div class="list">
       <ul>
         <li>
-          <router-link :to="{ name: 'detail', query: { type:  1}}">
+          <router-link :to="{ name: 'auth'}">
             <span>实名认证</span>
             <van-icon name="arrow" />
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'detail', query: { type:  2}}">
+          <router-link :to="{ name: 'identity'}">
             <span>身份认证</span>
             <van-icon name="arrow" />
           </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'detail', query: { type:  3}}">
+          <router-link :to="{ name: 'audittruck'}">
             <span>车辆认证</span>
             <van-icon name="arrow" />
           </router-link>

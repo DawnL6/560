@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar :title="title" />
+    <van-nav-bar title="实名认证" @click-left="onClickLeft" left-arrow/>
     <div class="content">
       <div class="item">
         <van-cell-group>
@@ -34,6 +34,7 @@
 import { asyncTool } from "../http/index.js";
 import SimpleCropper from "../components/Update";
 import { Toast } from "vant";
+var img = require("../assets/personalCenter_takePhoto_90x90.png");
 export default {
   data() {
     return {
@@ -43,27 +44,22 @@ export default {
       },
       isIcon: false,
       isIdCard: false,
-      icon: require("../assets/personalCenter_takePhoto_90x90.png"),
-      id_card: require("../assets/personalCenter_takePhoto_90x90.png"),
+      icon: img,
+      id_card: img,
       driver_mobile: ""
     };
   },
-  mounted() {
-    this.choseTitle();
+  created() {
+    if (!window.localStorage.getItem("userInfo")) {
+      this.$router.push("/login");
+    }
   },
   components: {
     SimpleCropper
   },
   methods: {
-    choseTitle() {
-      const type = this.$route.query.type;
-      if (type == "1") {
-        this.title = "实名认证";
-      } else if (type == "2") {
-        this.title = "身份认证";
-      } else {
-        this.title = "车辆认证";
-      }
+    onClickLeft() {
+      this.$router.push("/");
     },
     upload(type) {
       this.$refs[type].upload();
@@ -81,7 +77,6 @@ export default {
         Toast("请填写用户手机号");
         return;
       }
-
       if (
         !/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(
           this.driver_mobile
@@ -98,26 +93,30 @@ export default {
         Toast("请上传身份证正面");
         return;
       }
+      Toast.loading({
+        mask: true,
+        message: "提交中..."
+      });
       asyncTool("/handler/auth", {
-        icon: this.icon,
-        id_card: this.id_card,
+        icon: this.icon.split(",")[1],
+        id_card: this.id_card.split(",")[1],
         driver_mobile: this.driver_mobile,
         user_id: JSON.parse(window.localStorage.getItem("userInfo")).userId,
         sign: JSON.parse(window.localStorage.getItem("userInfo")).sign
       })
         .then(res => {
-          console.log(res);
           if (res.status === 200) {
-            if (res.data.resultCode === "E_CODE_0") {
-            } else if (res.data.resultCode === "E_CODE_3") {
+            Toast(res.data.resultMsg);
+            if (res.data.resultCode === "E_CODE_3") {
               window.localStorage.removeItem("userInfo");
-              Toast(res.data.resultMsg);
               this.$router.push("/login");
+            } else if (res.data.resultCode === "E_CODE_0") {
+              this.$router.push("/");
             }
           }
         })
         .catch(function(error) {
-          console.log(error);
+          Toast("未知错误");
         });
     }
   }

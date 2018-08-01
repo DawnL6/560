@@ -17,7 +17,7 @@ const filter = (str) => { // 特殊字符转义
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: 5000,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json;charset=UTF-8"
   }

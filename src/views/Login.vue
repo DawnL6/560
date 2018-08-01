@@ -33,23 +33,29 @@ export default {
         Toast("密码不能为空！");
         return;
       }
+      Toast.loading({
+        mask: true,
+        message: "登陆中..."
+      });
       asyncTool("user/login", {
         user_name: this.user_name,
         pass_word: this.pass_word
       })
         .then(res => {
+          Toast.clear();
           if (res.status === 200 && res.data.resultCode === "E_CODE_0") {
             window.localStorage.setItem(
               "userInfo",
               JSON.stringify(res.data.resultData)
             );
-            this.$router.push("/");
+            this.$router.back();
           } else {
             Toast(res.data.resultMsg);
           }
         })
         .catch(function(error) {
-          console.log(error);
+          Toast.clear();
+          Toast("未知错误");
         });
     }
   }

@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Home from './views/Home.vue'
-import Detail from './views/Detail.vue'
+import Auth from './views/Auth.vue'
+import Identity from './views/Identity.vue'
+import Audittruck from './views/AuditTruck.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -18,9 +20,19 @@ export default new Router({
       component: Login
     },
     {
-      path: '/detail',
-      name: 'detail',
-      component: Detail
+      path: '/auth',
+      name: 'auth',
+      component: Auth
+    },
+    {
+      path: '/identity',
+      name: 'identity',
+      component: Identity
+    },
+    {
+      path: '/audittruck',
+      name: 'audittruck',
+      component: Audittruck
     }
   ]
 })

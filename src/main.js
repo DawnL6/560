@@ -11,7 +11,11 @@ import {
   CellGroup,
   NavBar,
   Icon,
-  Uploader
+  Uploader,
+  RadioGroup,
+  Radio,
+  Cell,
+  Popup
 } from 'vant';
 
 Vue.use(Button)
@@ -20,6 +24,10 @@ Vue.use(Button)
   .use(NavBar)
   .use(Icon)
   .use(Uploader)
+  .use(RadioGroup)
+  .use(Radio)
+  .use(Cell)
+  .use(Popup)
 
 new Vue({
   router,
